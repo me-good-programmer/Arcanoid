@@ -105,6 +105,16 @@ class Ball {
 		for (var i = 0; i < 10*10; i++) {
 			//collide(bl, bricks[i]);
 		}
+		if ((this.x + this.width > brick[i].x)&& (this.x + this.width < brick[i].x + 42)){
+			this.dx = - this.dx
+		}
+		if ((this.y + this.height > brick[i].y)&& (this.x + this.height < brick[i].y + 20)){
+			this.dy = - this.dy
+		}
+
+
+
+
 	}
 }
 
