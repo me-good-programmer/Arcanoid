@@ -13,13 +13,9 @@ paddleImage.src ="img/paddle.png";
 const ballImage = new Image();
 ballImage.src ="img/ball.png";
 
+const W_W = canvas.width;
+const W_H = canvas.height;
 
-
-const C_S = 32;
-M = 15
-N = 17
-FIELD_W = M * C_S
-FIELD_H = N * C_S 
 
 var game;
 var pad;
@@ -39,56 +35,78 @@ class Paddle {
 
 		this.x = x
 		this.y = y
-		this.speed = 10;
+		this.width = 90;
+		this.height = 9;
+		this.dx = 10;
 	}
-	move(){
-		if ((event.code == this.k_left) && (this.x - this.speed > 0)){
-			this.x -= this.speed
-		} else if ((event.code == this.k_right) && (this.x + this.speed < 620)) {
-		 	this.x += this.speed;
-		}		
+
+	move(event){
+		if ((event.code == this.k_left)&&(this.x - this.dx > -1)){
+			this.x -= this.dx
+		} else if (event.code == this.k_right){
+			this.x += this.dx	
+		}
+	}
+
+	moveM(event){
+		var newX = (event.clientX - canvas.offsetLeft);
+
+		this.x = newX - Math.floor(this.width/2);
 	}
 
 	draw(){
 		ctx.drawImage(this.img, this.x, this.y);
-	}
-
-	isTouchWall() {
-		if (this.x == 0)
-			clearInterval(game);
-
-		else if (this.body[0].x == 576)
-			clearInterval(game);
 	}
 }
 
 class Ball {
 	constructor(img, x, y) {
 		this.img = img
-
+		
 		this.x = x
 		this.y = y
-
-		this.direction = { x: 1, y: 0};
-
-		
+		this.width = 12;
+		this.height = 12;
+		this.dx = 5
+		this.dy = -5
 
 	}
 	move(){
-	
+		this.x += this.dx
+		this.y += this.dy
 	}
 
 	draw() {
-		ctx.drawImage(this.img, this.x, this.y);
-			
+		ctx.drawImage(this.img, this.x, this.y);		
 	}
-	
 
-	collide() {
+	collideWall() {
+		if (this.x + this.dx < -1){
+			this.dx = -this.dx
+		}
+		if (this.x + this.width + this.dx > W_W){
+			this.dx = -this.dx
+		}
+		if (this.y + this.dy < -1){
+			this.dy = -this.dy
+		}
+		if (this.y + this.height + this.dy > W_H){
+			this.dy = -this.dy
+		}
+	}
 
+	collidePaddle() {
+		if ((this.x + this.dx + this.width > pad.x) && (this.x + this.dx < pad.x + pad.width)&&(this.y + this.dy + this.height > pad.y)){
+			this.dy = -this.dy
+		}	
+	}
+
+	collideBricks() {
+		for (var i = 0; i < 10*10; i++) {
+			//collide(bl, bricks[i]);
+		}
 	}
 }
-
 
 function init() {
 	for (var i = 1; i < 11; i++) {
@@ -96,13 +114,18 @@ function init() {
 			bricks.push({x: i*43, y: j*21})
 		}
 	}
-	pad = new Paddle(paddleImage, 0, 430, 'ArrowLeft', 'ArrowRight');
+	pad = new Paddle(paddleImage, 0, 440, 'ArrowLeft', 'ArrowRight');
 	bl = new Ball(ballImage, 300, 250);
 }
 
+function collideAll() {
+	bl.collideWall();
+	bl.collidePaddle();
+	bl.collideBricks();
+}
 
 function moveAll(){
-
+	bl.move();
 }
 
 function drawAll(){
@@ -115,20 +138,52 @@ function drawAll(){
 }
 
 function gameLoop(argument) {
+	collideAll();
 	moveAll();
 	drawAll();
+
+
+ 	ctx.fillStyle = "green";
+    ctx.font = "50px Arial";
+    ctx.fillText("Text", 50, 100)
+
+
 }
 
 document.addEventListener("keydown", dir)
+document.addEventListener("mousemove", mm)
 
 function dir(event) {
 	pad.move(event);
 }
 
+function mm(event) {
+	pad.moveM(event);
+}
+
 function main() {
 	init();
 
-	game = setInterval(gameLoop, 100);
+	game = setInterval(gameLoop, 20);
 }
 
 main()	
+
+
+
+/*Задачи
+Arcanoid
+1) сделать так чтобы мячик двигался (аналогично тому как двигается змейка)
+2) сделать так чтобы мячик отбивался от всех четырех стенок (можно догадаться, но такая же логика присутствовала в одном из прошлых проектов, где один квадратик двигался вверху экрана слева направо, а другой уходя за пределы экрана справа, снова появлялся слева)
+3) сделать так чтобы мячик мог отбиваться от paddle. Для этого определить столкновение (можно догадаться или сделать как обрабатывалось попадание bullet в проекте где агент мог стрелять) и отбить, как от стенки.
+4) сделать область где показывать сколько набрано очков (сбитых блоков). 
+Напоминаю как выводить на экран:
+        ctx.fillStyle = "green";
+        ctx.font = "50px Arial";
+        ctx.fillText("Text", x, y);  или ctx.fillText(score, x, y);
+
+Сделать новый проект:
+1) окно 800х600 или 16х12 клеток 50х50 (как в змейке).
+2) агент перемещается по клеткам при нажатии на кнопки со стрелками.
+3) не может выйти за пределы поля.
+4) выводится (где угодно) число равное количеству сделанных шагов.*/
