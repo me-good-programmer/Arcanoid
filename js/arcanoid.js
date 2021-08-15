@@ -53,7 +53,7 @@ class Paddle {
 		if (newX - this.width/2 > -1){
 			this.x = newX - Math.floor(this.width/2);
 		}
-		if
+		
 	}
 
 	draw(){
