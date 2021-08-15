@@ -50,8 +50,10 @@ class Paddle {
 
 	moveM(event){
 		var newX = (event.clientX - canvas.offsetLeft);
-
-		this.x = newX - Math.floor(this.width/2);
+		if (newX - this.width/2 > -1){
+			this.x = newX - Math.floor(this.width/2);
+		}
+		if
 	}
 
 	draw(){
@@ -102,19 +104,16 @@ class Ball {
 	}
 
 	collideBricks() {
-		for (var i = 0; i < 10*10; i++) {
+		for (var i = 0; i < brics.length; i++) {
 			//collide(bl, bricks[i]);
-		}
-		if ((this.x + this.width > brick[i].x)&& (this.x + this.width < brick[i].x + 42)){
+			if ((this.x + this.width > bricks[i].x)&& (this.x + this.width < bricks[i].x + 42)){
 			this.dx = - this.dx
-		}
-		if ((this.y + this.height > brick[i].y)&& (this.x + this.height < brick[i].y + 20)){
+			}
+			if ((this.y + this.height > bricks[i].y)&& (this.x + this.height < bricks[i].y + 20)){
 			this.dy = - this.dy
-		}
-
-
-
-
+			}
+		
+		}	
 	}
 }
 
@@ -131,7 +130,7 @@ function init() {
 function collideAll() {
 	bl.collideWall();
 	bl.collidePaddle();
-	bl.collideBricks();
+	//bl.collideBricks();
 }
 
 function moveAll(){
