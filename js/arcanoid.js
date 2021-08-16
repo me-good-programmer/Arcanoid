@@ -109,10 +109,10 @@ class Ball {
 			if ((this.x + this.dx > bricks[i].x) && (this.x + this.dx < bricks[i].x + 42)&& (this.y + this.dy < bricks[i].y)&&(this.y + this.dy < bricks[i].y + 20)){
 				this.dx = - this.dx
 				bricks[i].x = 1000
-			}else if  ((this.x + this.dx < bricks[i].x) && (this.x + this.dx < bricks[i].x + 42)&& (this.y + this.dy < bricks[i].y)&&(this.y + this.dy > bricks[i].y + 20)){
+			}else if  ((this.x + this.dx < bricks[i].x) && (this.x + this.dx > bricks[i].x + 42)&& (this.y + this.dy > bricks[i].y)&&(this.y + this.dy < bricks[i].y + 20)){
 				this.dy = - this.dy
 				bricks[i].x = 1000
-			}else if  ((this.x + this.dx < bricks[i].x) && (this.x + this.dx < bricks[i].x + 42)&& (this.y + this.dy > bricks[i].y)&&(this.y + this.dy > bricks[i].y + 20)){
+			}else if  ((this.x + this.dx < bricks[i].x) && (this.x + this.dx > bricks[i].x + 42)&& (this.y + this.dy > bricks[i].y)&&(this.y + this.dy < bricks[i].y + 20)){
 				this.dy = - this.dy
 				bricks[i].x = 1000
 			}
