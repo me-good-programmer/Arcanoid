@@ -102,19 +102,25 @@ class Ball {
 		if ((this.x + this.dx + this.width > pad.x) && (this.x + this.dx < pad.x + pad.width) && (this.y + this.dy + this.height > pad.y)){
 			this.dy = -this.dy
 		}	
-	}
+	}//bricks[i].x = 1000
 
 	collideBricks() {
 		for (var i = 0; i < bricks.length; i++) {
-			if ((this.x + this.dx > bricks[i].x) && (this.x + this.dx < bricks[i].x + 42)&& (this.y + this.dy < bricks[i].y)&&(this.y + this.dy < bricks[i].y + 20)){
-				this.dx = - this.dx
-				bricks[i].x = 1000
-			}else if  ((this.x + this.dx < bricks[i].x) && (this.x + this.dx > bricks[i].x + 42)&& (this.y + this.dy > bricks[i].y)&&(this.y + this.dy < bricks[i].y + 20)){
-				this.dy = - this.dy
-				bricks[i].x = 1000
-			}else if  ((this.x + this.dx < bricks[i].x) && (this.x + this.dx > bricks[i].x + 42)&& (this.y + this.dy > bricks[i].y)&&(this.y + this.dy < bricks[i].y + 20)){
-				this.dy = - this.dy
-				bricks[i].x = 1000
+			if ((this.x + this.dx + this.width > bricks[i].x) && (this.x + this.dx < bricks[i].x + 42) && (this.y + this.dy + this.height > bricks[i].y)&&(this.y + this.dy < bricks[i].y + 20 )){
+				if ((this.x > bricks[i])&&(this.x + this.width < bricks[i].x + 42)&&(this.y > bricks[i].y + 20)){
+					this.dy = - this.dy	
+					bricks[i].x = 1000
+				}else if ((this.x > bricks[i])&&(this.x + this.width < bricks[i].x + 42)&&(this.y < bricks.y)){
+					this.dy = - this.dy	
+					bricks[i].x = 1000
+				}else if ((this.y > bricks[i].y)&&(this.y + this.height < bricks[i].y + 20)&&(this.x + this.width < bricks[i].x)){
+					this.dx = - this.dx	
+					bricks[i].x = 1000
+				}else if ((this.y > bricks[i].y)&&(this.y + this.height < bricks[i].y + 20)&&(this.x > bricks[i].x + 42)){
+					this.dx = - this.dx	
+					bricks[i].x = 1000
+				}
+					
 			}
 			
 		}	
