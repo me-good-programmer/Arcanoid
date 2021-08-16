@@ -107,10 +107,10 @@ class Ball {
 	collideBricks() {
 		for (var i = 0; i < bricks.length; i++) {
 			if ((this.x + this.dx + this.width > bricks[i].x) && (this.x + this.dx < bricks[i].x + 42) && (this.y + this.dy + this.height > bricks[i].y)&&(this.y + this.dy < bricks[i].y + 20 )){
-				if ((this.x > bricks[i])&&(this.x + this.width < bricks[i].x + 42)&&(this.y > bricks[i].y + 20)){
+				if ((this.x > bricks[i].x)&&(this.x + this.width < bricks[i].x + 42)&&(this.y > bricks[i].y + 20)){
 					this.dy = - this.dy	
 					bricks[i].x = 1000
-				}else if ((this.x > bricks[i])&&(this.x + this.width < bricks[i].x + 42)&&(this.y < bricks.y)){
+				}else if ((this.x > bricks[i])&&(this.x + this.width < bricks[i].x + 42)&&(this.y < bricks[i].y)){
 					this.dy = - this.dy	
 					bricks[i].x = 1000
 				}else if ((this.y > bricks[i].y)&&(this.y + this.height < bricks[i].y + 20)&&(this.x + this.width < bricks[i].x)){
